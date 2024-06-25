@@ -132,4 +132,4 @@ if __name__ == '__main__':
             db.create_all()
         if not os.path.exists(UPLOAD_FOLDER):
             os.mkdir(UPLOAD_FOLDER)
-        app.run(debug=True)
+        app.run(host="0.0.0.0",debug=True)

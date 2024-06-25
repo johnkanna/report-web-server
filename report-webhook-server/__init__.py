@@ -1,1 +1,1 @@
-from .core import *
+from .webapp import *
