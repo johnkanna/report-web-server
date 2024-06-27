@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy dog'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 500 * 1000 * 1000  # 500 MB
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1000 * 1000  # 20 MB
 app.config['CORS_HEADER'] = 'application/json'
 # extensions
 db = SQLAlchemy(app)
@@ -30,13 +30,16 @@ def allowedFile(filename):
 
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return 'Hello, This is a webhook server!'
+@app.errorhandler(413)
+def too_large(e):
+    return "File is too large", 413
 
 @app.route('/upload', methods=['POST'])
 @auth.login_required
 def fileUpload():
     if request.method == 'POST':
-        file = request.files.getlist('files')
+        file = request.files.getlist('file')
         filename = ""
         print(request.files, "....")
         for f in file:
